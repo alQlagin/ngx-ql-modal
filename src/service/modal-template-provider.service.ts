@@ -23,7 +23,8 @@ export class ModalTemplateProviderService {
     createContainer() {
         // Create container
         try {
-            const body = document.querySelector(this.hostSelector);
+            // @TODO разобраться с this.hostSelector
+            const body = document.querySelector('body');
             const container = document.createElement('div');
             body.appendChild(container);
             return container;
