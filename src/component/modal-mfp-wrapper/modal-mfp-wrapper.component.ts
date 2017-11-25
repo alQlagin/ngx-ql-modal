@@ -19,8 +19,4 @@ export class ModalMfpWrapperComponent implements IModalWrapper{
     hide() {
         this.active = false;
     }
-
-    closeHandler() {
-        this.close.emit();
-    }
 }
