@@ -22,16 +22,20 @@ export class ModalTemplateProviderService {
 
     createContainer() {
         // Create container
-        const body = document.querySelector(this.hostSelector);
-        const container = document.createElement('div');
-        body.appendChild(container);
-        return container;
+        try {
+            const body = document.querySelector(this.hostSelector);
+            const container = document.createElement('div');
+            body.appendChild(container);
+            return container;
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    createModalWrapper(): ComponentRef<any> {
+    createModalWrapper(container: Element): ComponentRef<any> {
         // Locate the component factory for the ModalWrapper
         const modalWrapperFactory = this.componentFactoryResolver.resolveComponentFactory<IModalWrapper>(this.modalWrapper);
         // Generate an instance of the ModalWrapper
-        return modalWrapperFactory.create(this.injector, [], this.createContainer());
+        return modalWrapperFactory.create(this.injector, [], container);
     }
 }

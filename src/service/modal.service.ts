@@ -24,15 +24,12 @@ export class ModalService {
     private modalWrapperRef: ComponentRef<any>;
     private wrapperCloseSubscription: Subscription;
     private componentCloseSubscription: Subscription;
+    private container: Element;
 
-    constructor(applicationRef: ApplicationRef,
+    constructor(private applicationRef: ApplicationRef,
                 private componentFactoryResolver: ComponentFactoryResolver,
                 private injector: Injector,
-                modalTemplateProvider: ModalTemplateProviderService) {
-
-        this.modalWrapperRef = modalTemplateProvider.createModalWrapper();
-        // Attach to the component to Angular's component tree for dirty checking
-        applicationRef.attachView(this.modalWrapperRef.hostView);
+                private modalTemplateProvider: ModalTemplateProviderService) {
     }
 
     private get modalWrapperInstance() {
@@ -78,9 +75,18 @@ export class ModalService {
     }
 
     protected beforeReveal() {
+        this.createContainer();
         this.close();
     }
 
+    private createContainer(){
+        if (!this.container){
+            this.container = this.modalTemplateProvider.createContainer();
+            this.modalWrapperRef = this.modalTemplateProvider.createModalWrapper(this.container);
+            // Attach to the component to Angular's component tree for dirty checking
+            this.applicationRef.attachView(this.modalWrapperRef.hostView);
+        }
+    }
     private createInjector(config: any) {
         const injectionTokens = new WeakMap();
         injectionTokens.set(MODAL_CONTAINER_DATA, config && config.data);
