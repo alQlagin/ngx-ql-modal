@@ -58,7 +58,7 @@ export class ModalService {
     protected afterReveal(componentRef: ComponentRef<IModalComponent>,
                           componentInstanceCloseShared: Observable<any>) {
         this.componentCloseSubscription = componentInstanceCloseShared.subscribe(() => this.close());
-        this.wrapperCloseSubscription = this.modalWrapperInstance.close.asObservable().subscribe(() => componentRef.instance.close.emit());
+        // this.wrapperCloseSubscription = this.modalWrapperInstance.close.asObservable().subscribe(() => componentRef.instance.close.emit());
     }
 
     close(above = false) {
